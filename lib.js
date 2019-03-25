@@ -1,14 +1,28 @@
 
 const fs = require('fs')
-exports.filesDetails =  function(path){
-    const files = fs.readdirSync(path)
+const debug = require('debug')('tp2-fileProperties')
+const async = require("async")
 
-    const result = []
-    files.forEach(file => {
-        result.push({
-            name: file,
-            properties: fs.statSync(path + "/" + file)
-        })
+exports.filesDetails = function (path, callback) {
+    debug(`File async properties of path ${path}`)
+    const res = [];
+    fs.readdir(path, (err, files) => {
+        if (err) {
+            callback(err)
+        } else {
+            async.reduce(files, [], (memo, file, callback) => {
+                fs.stat(path + "/" + file, (err_fsstat, properties) => {
+                    if (err_fsstat) {
+                        debug(`Unable to get properties of ${file}`)
+                        callback(err_fsstat, null)
+                    } else {
+                        memo.push({name: file, properties})
+                        callback(null, memo)
+                    }
+                })
+            }, (err, result) => {
+                callback(err, result)
+            })
+        }
     })
-    return result
 }

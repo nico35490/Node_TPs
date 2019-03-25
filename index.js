@@ -14,7 +14,13 @@ debug('Booting')
 const server = http.createServer((req, res) => {
     debug(`Request received ${req.method} ${req.url}`)
     res.writeHead(200, {"Content-Type": "application/json"})
-    res.end(JSON.stringify(lib.filesDetails(path)))
+    lib.filesDetails(path, (err, result)=>{
+        if(err){
+            console.error(err)
+        } else {
+            res.end(JSON.stringify(result));
+        }
+    });
 })
 
 // Listen on port 8000, IP defaults to 127.0.0.1
