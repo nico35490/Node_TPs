@@ -1,12 +1,35 @@
-const http = require('http') 
+/*
+    Page web : File info
+*/
+
+const http = require('http')
 const fs = require('fs')
+const debug = require('debug')('tp2-server')
+
+const port = 8000
+const path = '.'
+
+debug('Booting')
+
+// Configure our HTTP server
 const server = http.createServer((req, res) => {
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    let dict = {};
-    let files = fs.readdirSync("./");
-    for (file in files){
-        dict[files[file]] = fs.statSync(files[file]);
-    }
-    res.end(JSON.stringify(dict));
+    debug(`Request received ${req.method} ${req.url}`)
+    const files = fs.readdirSync(path)
+
+    const result = []
+    files.forEach(file => {
+        result.push({
+            name: file,
+            properties: fs.statSync(path + "/" + file)
+        })
+    })
+
+    res.writeHead(200, {"Content-Type": "application/json"})
+    res.end(JSON.stringify(result))
 })
-server.listen(8000) // Port d'écoute
+
+// Listen on port 8000, IP defaults to 127.0.0.1
+server.listen(port)
+
+// Server ready
+debug(`Server running at http://127.0.0.1:${port}/`)
