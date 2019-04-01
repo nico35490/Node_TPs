@@ -1,6 +1,6 @@
 const uuidv1 = require('uuid/v1')
 
-const users = [
+let users = [
     {
         id: '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e',
         name: 'Pedro Ramirez',
@@ -14,6 +14,17 @@ const get = (id) => {
     return usersFound.length >= 1
         ? usersFound[0]
         : undefined
+}
+
+const init = () => {
+    users = [
+        {
+            id: '45745c60-7b1a-11e8-9c9c-2d42b21b1a3e',
+            name: 'Pedro Ramirez',
+            login: 'pedro',
+            age: 44
+        }
+    ]
 }
 
 const getAll = () => {
@@ -79,3 +90,4 @@ exports.getAll = getAll
 exports.add = add
 exports.update = update
 exports.remove = remove
+exports.init = init
