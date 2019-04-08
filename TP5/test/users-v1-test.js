@@ -1,6 +1,7 @@
 const chai = require('chai')
 const chaiHttp = require('chai-http')
-const {app} = require('../app')
+const { app } = require('../app')
+
 
 chai.should()
 chai.use(chaiHttp)
@@ -71,7 +72,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .post('/v1/users')
-      .send({name: 'Robert', login: 'roro', age: 23})
+      .send({ name: 'Robert', login: 'roro', age: 23, password: '1234' })
       .end((err, res) => {
         res
           .should
@@ -126,7 +127,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .post('/v1/users')
-      .send({name: 'Robert', login: 'roro', age: 23, wrongparam: 'value'})
+      .send({ name: 'Robert', login: 'roro', age: 23, wrongparam: 'value' })
       .end((err, res) => {
         res
           .should
@@ -155,7 +156,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .patch('/v1/users/45745c60-7b1a-11e8-9c9c-2d42b21b1a3e')
-      .send({name: 'Robertinio'})
+      .send({ name: 'Robertinio', password: '1234' })
       .end((err, res) => {
         res
           .should
@@ -195,7 +196,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .patch('/v1/users/45745c60-7b1a-11e8-9c9c-2d42b21b1a3e')
-      .send({wrongparam1: 'Robertinio'})
+      .send({ wrongparam1: 'Robertinio' })
       .end((err, res) => {
         res
           .should
@@ -210,7 +211,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .patch('/v1/users/45745c60-unknow-2d42b21b1a3e')
-      .send({name: 'Robertinio'})
+      .send({ name: 'Robertinio' })
       .end((err, res) => {
         res
           .should

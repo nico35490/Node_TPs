@@ -242,7 +242,7 @@ components:
       properties:
         login:
           type: string
-        paswword:
+        password:
           type: string
     UserToCreate:
       type: object
@@ -258,7 +258,7 @@ components:
           type: string
         age:
           type: number
-        paswword:
+        password:
           type: string
     UserToUpdate:
       type: object
@@ -274,7 +274,7 @@ components:
           type: string
         age:
           type: number
-        paswword:
+        password:
           type: string
     User:
       type: object
