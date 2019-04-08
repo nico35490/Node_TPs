@@ -7,10 +7,104 @@ chai.should()
 chai.use(chaiHttp)
 
 describe('Users tests', () => {
+  it('should login with JWT on /v1/auth/login POST', done => {
+    chai
+      .request(app)
+      .post('/v1/auth/login')
+      .send({ login: 'pedro', password: '1234' })
+      .end((err, res) => {
+        res
+          .should
+          .have
+          .status(200)
+        res.should.be.json
+        res
+          .body
+          .should
+          .be
+          .a('json')
+          res
+            .body
+            .should
+            .have
+            .property('access_token')
+          res
+            .body
+            .should
+            .have
+            .property('expirity')
+        done()
+      })
+  })
+  it('should not login with JWT on /v1/auth/login POST with bad credentials', done => {
+    chai
+      .request(app)
+      .post('/v1/auth/login')
+      .send({ login: 'pedro', password: '12345678' })
+      .end((err, res) => {
+        res
+          .should
+          .have
+          .status(401)
+        res.should.be.json
+        res
+          .body
+          .should
+          .be
+          .a('json')
+          res
+            .body
+            .should
+            .have
+            .property('code')
+          res
+            .body
+            .should
+            .have
+            .property('type')
+          res
+            .body
+            .should
+            .have
+            .property('message')
+        done()
+      })
+  })
+
+  it('should check access of user on /v1/auth/verifyaccess GET', done => {
+    chai
+      .request(app)
+      .get('/v1/auth/verifyaccess')
+      .set('Authorization', 'BIDULE')
+      .end((err, res) => {
+        res
+          .should
+          .have
+          .status(200)
+        res.should.be.json
+        done()
+      })
+  })
+  it('should check access of user on /v1/auth/verifyaccess GET', done => {
+    chai
+      .request(app)
+      .get('/v1/auth/verifyaccess')
+      .set('Authorization', 'BIDULE')
+      .end((err, res) => {
+        res
+          .should
+          .have
+          .status(401)
+        res.should.be.json
+        done()
+      })
+  })
+
   it('should list ALL users on /v1/users GET', done => {
     chai
       .request(app)
       .get('/v1/users')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
@@ -25,10 +119,25 @@ describe('Users tests', () => {
         done()
       })
   })
+  it('Unauthorized on /v1/users GET', done => {
+    chai
+      .request(app)
+      .get('/v1/users')
+      .set('Authorization', 'BIDULE')
+      .end((err, res) => {
+        res
+          .should
+          .have
+          .status(401)
+        res.should.be.json
+        done()
+      })
+  })
   it('should list a SINGLE user on /v1/users/<id> GET', done => {
     chai
       .request(app)
       .get('/v1/users/45745c60-7b1a-11e8-9c9c-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
@@ -58,6 +167,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .get('/v1/users/45745c60-unknow-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
@@ -72,6 +182,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .post('/v1/users')
+      .set('Authorization', 'BIDULE')
       .send({ name: 'Robert', login: 'roro', age: 23, password: '1234' })
       .end((err, res) => {
         res
@@ -127,6 +238,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .post('/v1/users')
+      .set('Authorization', 'BIDULE')
       .send({ name: 'Robert', login: 'roro', age: 23, wrongparam: 'value' })
       .end((err, res) => {
         res
@@ -142,6 +254,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .post('/v1/users')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
@@ -156,6 +269,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .patch('/v1/users/45745c60-7b1a-11e8-9c9c-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .send({ name: 'Robertinio', password: '1234' })
       .end((err, res) => {
         res
@@ -196,6 +310,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .patch('/v1/users/45745c60-7b1a-11e8-9c9c-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .send({ wrongparam1: 'Robertinio' })
       .end((err, res) => {
         res
@@ -211,6 +326,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .patch('/v1/users/45745c60-unknow-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .send({ name: 'Robertinio' })
       .end((err, res) => {
         res
@@ -226,6 +342,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .delete('/v1/users/45745c60-7b1a-11e8-9c9c-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
@@ -239,6 +356,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .delete('/v1/users/45745c60-unknown-2d42b21b1a3e')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
@@ -252,6 +370,7 @@ describe('Users tests', () => {
     chai
       .request(app)
       .delete('/v1/users/')
+      .set('Authorization', 'BIDULE')
       .end((err, res) => {
         res
           .should
