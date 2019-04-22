@@ -27,7 +27,7 @@ router.get('/:id', function (req, res, next) {
       } else {
         res
           .status(404)
-          .json({message: `User not found with id ${id}`})
+          .json({code : 0,type : "User not found", message : `User not found with id ${id}`})
       }
     } catch (exc) {
       /* istanbul ignore next */
@@ -85,7 +85,7 @@ router.patch('/:id', function (req, res, next) {
       if (exc.message === 'user.not.found') {
         res
           .status(404)
-          .json({message: `User not found with id ${id}`})
+          .json({code : 0,type : "User not found", message : `User not found with id ${id}`})
       } else {
         res
           .status(400)
@@ -116,7 +116,7 @@ router.delete('/:id', function (req, res, next) {
       if (exc.message === 'user.not.found') {
         res
           .status(404)
-          .json({message: `User not found with id ${id}`})
+          .json({code : 0,type : "User not found", message : `User not found with id ${id}`})
       } else {
         res
           .status(400)
