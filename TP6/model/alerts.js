@@ -1,26 +1,20 @@
 let mongoose = require('mongoose')
+const uuidv1 = require('uuid/v1');
 
 let alertSchema = new mongoose.Schema({
+    id: String,
     type: ['weather', 'sea', 'transport'],
     label: String,
     status: ['warning', 'threat', 'danger', 'risk'],
     from: String,
     to: String
-})
-
-// Duplicate the ID field.
-alertSchema.virtual('id').get(function () {
-    return this._id.toHexString();
-});
-// Ensure virtual fields are serialised.
-alertSchema.set('toJSON', {
-    virtuals: true
-});
+},{ _id : false })
 
 Alerts = mongoose.model('Alerts', alertSchema)
 
 const add = (alert) => {
-    const newAlert = new Alerts(alert)
+    alert.id = uuidv1()
+    let newAlert = new Alerts(alert)
     return newAlert.save()
         .then(doc => { console.log(doc) })
         .catch(err => { console.log(err) })
@@ -45,7 +39,7 @@ const update = (id, newAlertProperties) => {
 }
 
 const remove = (id) => {
-    return Alerts.findOneAndDelete({ id: id })
+    return Alerts.findOneAndDelete({id: id })
         .then(doc => { console.log(doc) })
         .catch(err => { console.log(err) })
 }
