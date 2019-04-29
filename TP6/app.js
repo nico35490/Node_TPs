@@ -17,6 +17,7 @@ app.use(bodyParser.json())
 // Activation de Helmet
 app.use(helmet({noSniff: true}))
 
+//Check the token for all requests
 app.use(authModel.checkToken)
 // On injecte le model dans les routers. Ceci permet de supprimer la dépendance
 // directe entre les routers et le modele
