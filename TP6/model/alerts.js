@@ -9,11 +9,11 @@ let alertSchema = new mongoose.Schema({
 })
 
 // Duplicate the ID field.
-Schema.virtual('id').get(function () {
+alertSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 // Ensure virtual fields are serialised.
-Schema.set('toJSON', {
+alertSchema.set('toJSON', {
     virtuals: true
 });
 
