@@ -1,47 +1,37 @@
 let mongoose = require('mongoose')
-const uuidv1 = require('uuid/v1');
-
+const statusValues = ['warning', 'threat', 'danger', 'risk']
 let alertSchema = new mongoose.Schema({
-    id: String,
-    type: ['weather', 'sea', 'transport'],
-    label: String,
-    status: ['warning', 'threat', 'danger', 'risk'],
-    from: String,
-    to: String
-},{ _id : false })
+    type: {type: String,
+        enum: ['weather', 'sea', 'transport'],
+        required: true
+    },
+    label: {type: String, required: true},
+    status: {type: String, enum: statusValues, required: true},
+    from: {type: String, required: true},
+    to: {type: String, required: true}
+})
 
 Alerts = mongoose.model('Alerts', alertSchema)
 
 const add = (alert) => {
-    alert.id = uuidv1()
     let newAlert = new Alerts(alert)
     return newAlert.save()
-        .then(doc => { console.log(doc) })
-        .catch(err => { console.log(err) })
 }
 
 const getFromSearch = (status) => {
-    return Alerts.findOne({ status: status })
-        .then(doc => { console.log(doc) })
-        .catch(err => { console.log(err) })
+    return Alerts.find({ status: {$in : status}})
 }
 
 const get = (id) => {
     return Alerts.findById(id)
-        .then(doc => { console.log(doc) })
-        .catch(err => { console.log(err) })
 }
 
 const update = (id, newAlertProperties) => {
     return Alerts.findByIdAndUpdate(id, newAlertProperties)
-        .then(doc => { console.log(doc) })
-        .catch(err => { console.log(err) })
 }
 
 const remove = (id) => {
-    return Alerts.findOneAndDelete({id: id })
-        .then(doc => { console.log(doc) })
-        .catch(err => { console.log(err) })
+    return Alerts.findOneAndDelete({_id: id })
 }
 
 exports.add = add
@@ -49,3 +39,4 @@ exports.getFromSearch = getFromSearch
 exports.get = get
 exports.update = update
 exports.remove = remove
+exports.statusValues = statusValues

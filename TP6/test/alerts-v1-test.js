@@ -6,7 +6,7 @@ const { app } = require('../app')
 chai.should()
 chai.use(chaiHttp)
 
-const jeton = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InBlZHJvIiwiaWF0IjoxNTU1OTYzMDI4LCJleHAiOjE1NTY1Njc4Mjh9.3h6DcqJJCCi4unw8tSlfwdE6xZlnHtm0OaTS1BH5mF0'
+const jeton = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InBlZHJvIiwiaWF0IjoxNTU3MTUzMzk4LCJleHAiOjE1NTc3NTgxOTh9.hl5QzPDsQXsWn6mMpUv1jXVfMhn2xkL-9-Ez5vZwCQ4'
 
 describe('Alerts tests', () => {
     it('should put alert on /v1/alerts POST', done => {
@@ -36,7 +36,7 @@ describe('Alerts tests', () => {
                     .body
                     .should
                     .have
-                    .property('id')
+                    .property('_id')
                 res
                     .body
                     .should
@@ -92,8 +92,8 @@ describe('Alerts tests', () => {
             .post('/v1/alerts')
             .set('Authorization', 'Bearer ' + jeton)
             .send({
-                type: "weather",
-                label: "My alert for",
+                type: "wether",
+                label: "My alert for test 3",
                 stats: "warning",
                 from: "string",
                 to: "string"
@@ -130,7 +130,7 @@ describe('Alerts tests', () => {
     it('should get alerts on /v1/alerts/search GET', done => {
         chai
             .request(app)
-            .GET('/v1/alerts/search' + '?status=warning')
+            .get('/v1/alerts/search' + '?status=warning')
             .set('Authorization', 'Bearer ' + jeton)
             .end((err, res) => {
                 res
@@ -149,7 +149,7 @@ describe('Alerts tests', () => {
     it('should get alerts on /v1/alerts/search GET', done => {
         chai
             .request(app)
-            .GET('/v1/alerts/search' + '?stats=warning')
+            .get('/v1/alerts/search' + '?stats=warning')
             .set('Authorization', 'Bearer ' + jeton)
             .end((err, res) => {
                 res
@@ -157,11 +157,6 @@ describe('Alerts tests', () => {
                     .have
                     .status(400)
                 res.should.be.json
-                res
-                    .body
-                    .should
-                    .be
-                    .a('array')
                 done()
             })
     })
@@ -178,10 +173,10 @@ describe('Alerts tests', () => {
                 to: "string"
             })
             .end((err, res) => {
-                id = res.body.id
+                id = res.body._id
                 chai
                     .request(app)
-                    .GET('/v1/alerts/' + id)
+                    .get('/v1/alerts/' + id)
                     .set('Authorization', 'Bearer ' + jeton)
                     .end((err, res) => {
                         res
@@ -198,7 +193,7 @@ describe('Alerts tests', () => {
                             .body
                             .should
                             .have
-                            .property('id')
+                            .property('_id')
                         res
                             .body
                             .should
@@ -226,7 +221,6 @@ describe('Alerts tests', () => {
                             .property('to')
                         done()
                     })
-                    done()
             })
     })
     it('should get alert on /v1/alerts/:id GET', done => {
@@ -264,41 +258,7 @@ describe('Alerts tests', () => {
             })
 
     })
-    it('should get alert on /v1/alerts/:id GET', done => {
-        chai
-            .request(app)
-            .post('/v1/alerts/{nul:sdfgkfg}')
-            .set('Authorization', 'Bearer ' + jeton)
-            .end((err, res) => {
-                res
-                    .should
-                    .have
-                    .status(400)
-                res.should.be.json
-                res
-                    .body
-                    .should
-                    .be
-                    .a('object')
-                res
-                    .body
-                    .should
-                    .have
-                    .property('code')
-                res
-                    .body
-                    .should
-                    .have
-                    .property('type')
-                res
-                    .body
-                    .should
-                    .have
-                    .property('message')
-                done()
-            })
-
-    })
+   
     it('should patch alert on /v1/alerts POST', done => {
         chai
             .request(app)
@@ -312,7 +272,7 @@ describe('Alerts tests', () => {
                 to: "string"
             })
             .end((err, res) => {
-                id = res.body.id
+                id = res.body._id
                 chai
                     .request(app)
                     .put('/v1/alerts/' + id)
@@ -339,7 +299,7 @@ describe('Alerts tests', () => {
                             .body
                             .should
                             .have
-                            .property('id')
+                            .property('_id')
                         res
                             .body
                             .should
@@ -368,10 +328,9 @@ describe('Alerts tests', () => {
                             .property('to')
                         done()
                     })
-                    done()
             })
     })
-    it('should patch alert on /v1/alerts POST', done => {
+    it('should not patch alert on /v1/alerts POST', done => {
         chai
             .request(app)
             .post('/v1/alerts')
@@ -384,7 +343,7 @@ describe('Alerts tests', () => {
                 to: "string"
             })
             .end((err, res) => {
-                id = res.body.id
+                id = res.body._id
                 chai
                     .request(app)
                     .put('/v1/alerts/' + id)
@@ -392,7 +351,7 @@ describe('Alerts tests', () => {
                     .send({
                         type: "weather",
                         label: "test put modified",
-                        stats: "warning",
+                        status: "waning",
                         from: "string",
                         to: "string"
                     })
@@ -403,7 +362,6 @@ describe('Alerts tests', () => {
                             .status(405)
                         done()
                     })
-                    done()
             })
     })
 })
