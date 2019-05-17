@@ -8,5 +8,5 @@ Un token avec une longue durée de validité est présent en dur dans les fichie
 
 ### Avec le TP 5 :
 Un login est nécessaire pour accéder à l'API via un JWT par la suite.
-Pour login, faites un POST (via postman par exemple) à l'adresse localhost:3000/v1/auth/login avec login et password en paramètres
+Pour login, faites un POST (via postman par exemple) à l'adresse localhost:3000/v1/auth/login avec login et password en paramètres.
 Par exemple pour un login=pedro et un password=1234, faites localhost:3000/v1/auth/login?login=pedro&password=1234
