@@ -6,7 +6,7 @@ const { app } = require('../app')
 chai.should()
 chai.use(chaiHttp)
 
-const jeton = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InBlZHJvIiwiaWF0IjoxNTU3MTUzMzk4LCJleHAiOjE1NTc3NTgxOTh9.hl5QzPDsQXsWn6mMpUv1jXVfMhn2xkL-9-Ez5vZwCQ4'
+const jeton = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InBlZHJvIiwiaWF0IjoxNTU3MTUzMzk4LCJleHAiOjE1Njk3NTgxOTh9.XgB4OFOTLwzw2ewfFIbFDE-hr0tAY3AeO5pZ5AkKdc8'
 
 describe('Alerts tests', () => {
     it('should put alert on /v1/alerts POST', done => {

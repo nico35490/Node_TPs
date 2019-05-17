@@ -6,7 +6,7 @@ const { app } = require('../app')
 chai.should()
 chai.use(chaiHttp)
 
-const jeton = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InBlZHJvIiwiaWF0IjoxNTU1OTYzMDI4LCJleHAiOjE1NTY1Njc4Mjh9.3h6DcqJJCCi4unw8tSlfwdE6xZlnHtm0OaTS1BH5mF0'
+const jeton = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJsb2dpbiI6InBlZHJvIiwiaWF0IjoxNTU3MTUzMzk4LCJleHAiOjE1Njk3NTgxOTh9.XgB4OFOTLwzw2ewfFIbFDE-hr0tAY3AeO5pZ5AkKdc8'
 
 describe('Users tests', () => {
   it('should login with JWT on /v1/auth/login POST', done => {

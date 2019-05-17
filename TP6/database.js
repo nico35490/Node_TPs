@@ -1,12 +1,13 @@
 let mongoose = require('mongoose');
-const server = '127.0.0.1:27017'; // REPLACE WITH YOUR DB SERVER
-const database = 'alerts';      // REPLACE WITH YOUR DB NAME
+
+const connectionString = 'mongodb+srv://dbUser:dbUserPassword@cluster0-kixdp.mongodb.net/test?retryWrites=true'
+
 class Database {
     constructor() {
         this._connect()
     }
     _connect() {
-        mongoose.connect(`mongodb://${server}/${database}`)
+        mongoose.connect(connectionString)
             .then(() => {
                 console.log('Database connection successful')
             })
