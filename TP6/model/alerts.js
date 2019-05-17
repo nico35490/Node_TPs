@@ -27,7 +27,7 @@ const get = (id) => {
 }
 
 const update = (id, newAlertProperties) => {
-    return Alerts.findByIdAndUpdate(id, newAlertProperties)
+    return Alerts.findByIdAndUpdate(id, newAlertProperties, {new:true})
 }
 
 const remove = (id) => {

@@ -85,8 +85,8 @@ router.get('/:id', function (req, res, next) {
     })
       .catch((err) => {
         res
-          .status(405)
-          .json({ code: 0, type: "error", message: err.message })
+          .status(404)
+          .json({ code: 0, type: "Alert not found", message: `Alert not found with id ${id}` })
       })
 
   } else {

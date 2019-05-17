@@ -226,7 +226,7 @@ describe('Alerts tests', () => {
     it('should get alert on /v1/alerts/:id GET', done => {
         chai
             .request(app)
-            .post('/v1/alerts/sdfgkfg')
+            .get('/v1/alerts/sdfgkfg')
             .set('Authorization', 'Bearer ' + jeton)
             .end((err, res) => {
                 res
@@ -256,7 +256,6 @@ describe('Alerts tests', () => {
                     .property('message')
                 done()
             })
-
     })
    
     it('should patch alert on /v1/alerts POST', done => {
@@ -271,8 +270,8 @@ describe('Alerts tests', () => {
                 from: "string",
                 to: "string"
             })
-            .end((err, res) => {
-                id = res.body._id
+            .end((err, res1) => {
+                id = res1.body._id
                 chai
                     .request(app)
                     .put('/v1/alerts/' + id)
@@ -310,7 +309,7 @@ describe('Alerts tests', () => {
                             .should
                             .have
                             .property('label')
-                        res.label.should.equal('test put modified')
+                        res.body.label.should.equal('test put modified')
                         res
                             .body
                             .should
@@ -326,40 +325,6 @@ describe('Alerts tests', () => {
                             .should
                             .have
                             .property('to')
-                        done()
-                    })
-            })
-    })
-    it('should not patch alert on /v1/alerts POST', done => {
-        chai
-            .request(app)
-            .post('/v1/alerts')
-            .set('Authorization', 'Bearer ' + jeton)
-            .send({
-                type: "weather",
-                label: "test a put",
-                status: "warning",
-                from: "string",
-                to: "string"
-            })
-            .end((err, res) => {
-                id = res.body._id
-                chai
-                    .request(app)
-                    .put('/v1/alerts/' + id)
-                    .set('Authorization', 'Bearer ' + jeton)
-                    .send({
-                        type: "weather",
-                        label: "test put modified",
-                        status: "waning",
-                        from: "string",
-                        to: "string"
-                    })
-                    .end((err, res) => {
-                        res
-                            .should
-                            .have
-                            .status(405)
                         done()
                     })
             })
