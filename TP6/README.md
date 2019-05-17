@@ -1,6 +1,7 @@
 # ESIR-TP6 - Alertes
 
-Notre démarche de développement à été faite autour des test : nous avons d'abord implémenter les tests puis implémenter les fonctionnalités au fur et à mesure en s'assurant que l'API respectait le swagger implémenté avec les tests.
+Notre démarche de développement à été faite autour des test => TDD : nous avons d'abord implémenter les tests puis implémenter les fonctionnalités au fur et à mesure en s'assurant que l'API respectait le swagger implémenté avec les tests.
+
 ## Authentification :
 
 ### En dur
